@@ -64,7 +64,7 @@ banned_channels:
   - 807407935897600080
 apply_channel: 831196561903058944 
 app_category: 827343940680155158
-applications: 814221539674161192 # were applications go
+applications: 814221539674161192 # where applications go
 helper_apps: 831398304381927444 # where helper apps go
 helper_role: 831424422782173234 # helper role
 quickmaths: 831815862909927434 # quick maths chnanel
