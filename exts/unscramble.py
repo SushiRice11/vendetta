@@ -12,7 +12,7 @@ def f_w(word):
 class Unscramble(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        with open("./unscramblewords.txt", "r") as f:
+        with open("home/ven/unscramblewords.txt", "r") as f:
             ws = f.readlines()
         self.words = []
         for word in ws:
@@ -94,11 +94,11 @@ class Unscramble(commands.Cog):
                         await message.channel.set_permissions(message.channel.guild.default_role, send_messages=False)
 
     def save_words(self):
-        with open("./unscramblewords.txt", "w") as f:
+        with open("home/ven/unscramblewords.txt", "w") as f:
             f.write("\n".join(self.words))
 
     def reload_words(self):
-        with open("./unscramblewords.txt", "r") as f:
+        with open("home/ven/unscramblewords.txt", "r") as f:
             ws = f.readlines()
         self.words = []
         for word in ws:
