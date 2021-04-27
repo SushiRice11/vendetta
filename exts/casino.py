@@ -39,7 +39,7 @@ class Casino(commands.Cog):
         await ctx.send("||Rigged!||")
 
     @commands.command(aliases=["casino", "coinflip", "cf"])
-    @commands.cooldown(1, 45, commands.BucketType.user)
+    @commands.cooldown(1, 30, commands.BucketType.user)
     @commands.cooldown(30, 45, commands.BucketType.guild)
     async def gamble(self, ctx, amount):
         r = await self.bot.db.points.find_one({"user": ctx.author.id})

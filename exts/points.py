@@ -60,6 +60,8 @@ class Points(commands.Cog):
             embed=discord.Embed(title=user.name + "'s points!", description=f"{user.name} currentlly has {p} Points!"))
 
     @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.cooldown(30, 30, commands.BucketType.guild)
     async def give(self, ctx, member: discord.Member, points: int):
         r = await self.bot.db.points.find_one({"user": ctx.author.id})
         if not r:
