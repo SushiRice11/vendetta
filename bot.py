@@ -6,7 +6,7 @@ from aiohttp import ClientSession
 from motor.motor_asyncio import AsyncIOMotorClient
 from helpers.level import Leveling
 
-with open("config.yaml", "r") as f:
+with open("home/ven/config.yaml", "r") as f:
     config = yaml.safe_load(f.read())
 
 intents = discord.Intents.default()
