@@ -1,0 +1,77 @@
+prefix: "+" # this is the prefix for the bot
+token: "ABC123" # add the bot token here
+channel: 808985816676302869 # channel where it will do the quick react
+command_channel: 809500753949229098 # channel where it will tell someone to do the mee6 commands
+min_minutes: 30 # The minimum time it takes between each reaction (in mins)
+max_minutes: 45 # The max time
+winnings: #the winnnings from 1st place decending (in xp)
+  - 5
+  - 4
+  - 3 # First place
+  - 2 # second place
+  - 1 # third place (You can always add and remove more winners)
+db_login: mongourl here
+db_name: points
+buy: # the items to be bought
+  1000: Private voice channel
+  5000: Custom Role
+  10000: Month of Discord Nitro
+  15000: Lunar/Badlion Cosmetic 
+  50000: Minecraft account Code
+  500000: /f Gel 
+counting_channel: 823497025512407050
+counting_webhookurl: discordwebhookurl
+ticket_channel: 822886557744758794 # the channel for reporting people
+ticket_category: 824069530586185768 # the category where theyll create a ticket in
+report_channel: 822886777991725066 # the place where you will see reports (should be staff onyl)
+ticket:
+  types:
+    - name: Dm ad
+      emoji: 📬
+      description: Use this report type, to report a dm advertiser
+    - name: Spam
+      emoji: 💬
+      description: Use this report type, to report a spammer!#
+    - name: Other
+      emoji: ❓
+      description: report something else
+  questions:
+    - name: Who
+      question: Who would you like to report
+    - name: What for
+      question: What for would you like to report this person
+    - name: Notes
+      question: Do you have any notes to add?
+guild: 807399779633070090 # the id of the discord server/guild
+linking:
+  channel: 825086403184427009 # the channel to do the verify
+  player_endpoint: https://api.hypixel.net/player?uuid={}&key=APIKEY # change this to https://api.hypixel.net/player?uuid={}&key=YOURKEY
+  guild_endpoint: https://api.hypixel.net/guild?player={}&key=APIKEY
+  mcn_endpoint: https://api.mojang.com/users/profiles/minecraft/{}
+  mcu_endpoint: https://api.mojang.com/user/profiles/{}/names
+  look_for: "{0.name}#{0.discriminator}" # look for this as their discord
+  guilds:
+    - id: 601e09048ea8c9cb50edc644 # the guild id
+      role: 807675958076637205 # the role it should add
+    - id: 60369d878ea8c9dcf0a8e5c8 # the second guild id
+      role: 825089409585774623 # the role it should add
+    # you can add more guilds here
+req_xp: 50000
+parties: 830067060582514739 # category for party
+unscramble: 830465441511505921 # unscramble channel
+banned_channels:
+  - 830465441511505921 # command banned channels
+  - 807407935897600080
+apply_channel: 831196561903058944 
+app_category: 827343940680155158
+applications: 814221539674161192 # were applications go
+helper_apps: 831398304381927444 # where helper apps go
+helper_role: 831424422782173234 # helper role
+quickmaths: 831815862909927434 # quick maths chnanel
+levelup: 824072021725544499 # levelup channel
+levelbanned: #channels banned from gaining levels
+  - 807661113629212702
+  - 832139239445233706
+  - 807765313437171712
+  - 809336199910129694
+suggestion: 809147522169176146 # suggetion channel
