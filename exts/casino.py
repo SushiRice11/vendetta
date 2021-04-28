@@ -45,7 +45,7 @@ class Casino(commands.Cog):
         r = await self.bot.db.points.find_one({"user": ctx.author.id})
         if not r:
             raise discord.DiscordException(
-                "Please win first! You dont have any points!")
+                "Please win first! You don't have any points!")
 
         try:
             amount = int(amount)
@@ -56,11 +56,11 @@ class Casino(commands.Cog):
                 raise ValueError(amount)
         if r["points"] < amount:
             raise discord.DiscordException(
-                "Not enough points! You dont have enough points!")
+                "Not enough points! You don't have enough points!")
 
         if amount < 1:
             raise discord.DiscordException(
-                "Negative poitns! You cant gamble negatives!")
+                "Negative points! You can't gamble negatives!")
         # doc = await self.bot.db.rigged.find_one({"user": ctx.author.id})
         win = rigged_coice(1, 1)
         # if doc:
@@ -85,7 +85,7 @@ class Casino(commands.Cog):
         r = await self.bot.db.points.find_one({"user": ctx.author.id})
         if not r:
             raise discord.DiscordException(
-                "Please win first! You dont have any points!")
+                "Please win first! You don't have any points!")
 
         try:
             amount = int(amount)
@@ -93,11 +93,11 @@ class Casino(commands.Cog):
             amount = r["points"]
         if r["points"] < amount:
             raise discord.DiscordException(
-                "Not enough points! You dont have enough points!")
+                "Not enough points! You don't have enough points!")
 
         if amount < 1:
             raise discord.DiscordException(
-                "Negative poitns! You cant gamble negatives!")
+                "Negative points! You can't gamble negatives!")
         if prediction not in range(1, 7):
             raise discord.DiscordException(
                 "You need to choose a positive number")
@@ -150,11 +150,11 @@ class Casino(commands.Cog):
             amount = r["points"]
         if r["points"] < amount:
             raise discord.DiscordException(
-                "Not enough points! You dont have enough points!")
+                "Not enough points! You don't have enough points!")
 
         if amount < 1:
             raise discord.DiscordException(
-                "Negative poitns! You cant gamble negatives!")
+                "Negative points! You can't gamble negatives!")
 
         opponent_choice = random.choice(list(choices.values()))
         if not challenged:
@@ -174,16 +174,16 @@ class Casino(commands.Cog):
             amount = r["points"]
         if r["points"] < amount:
             raise discord.DiscordException(
-                "Not enough points! You dont have enough points!")
+                "Not enough points! You don't have enough points!")
 
         if amount < 1:
             raise discord.DiscordException(
-                "Negative poitns! You cant gamble negatives!")
+                "Negative poitns! You can't gamble negatives!")
 
         if challenged:
             r = await self.bot.db.points.find_one({"user": challenged.id})
             if r["points"] < amount:
-                raise discord.DiscordException("Not enough points! You dont have enough points!")
+                raise discord.DiscordException("Not enough points! You don't have enough points!")
 
         if own_choice == opponent_choice:
             embed = discord.Embed()
