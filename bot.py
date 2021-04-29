@@ -9,7 +9,7 @@ import os
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-with open(f"config.yaml", "r") as f:
+with open(f"config.yaml", "r", encoding='utf-8') as f:
     config = yaml.safe_load(f.read())
 
 intents = discord.Intents.default()
