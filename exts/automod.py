@@ -134,7 +134,7 @@ class AutoMod(commands.Cog):
             await message.delete()
             return await self.add_infraction(message.author, message.channel, reason="Emoji Spam.")
         if self.is_caps(message):
-            if not mesasge.author.id in self.last_caps:
+            if not message.author.id in self.last_caps:
                 self.last_caps[message.author.id] = 0
                 return await message.reply("Please dont use as many capital letters!")
             else:
@@ -143,7 +143,7 @@ class AutoMod(commands.Cog):
             return
         if self.is_mention_spam(message):
             return await self.add_infraction(message.author, message.channel, reason="Mention Spam.")
-        if self.is_duplicate(message):
+        if self.is_duplicate(message) and not message.content.startswith(self.bot.config["preifx"]):
             await message.delete()
             return await self.add_infraction(message.author, message.channel, reason="Duplicate Messages.")
         if self.is_spam(message):
