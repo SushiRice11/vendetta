@@ -171,9 +171,9 @@ class AutoMod(commands.Cog):
         for i in self.bot.config["tempmute_after"]:
             if infractions == i:
                 mins = self.bot.config["tempmute_after"][i]
-                break
+        
 
-        if max(self.bot.config["tempmute_after"]) >= infractions:
+        if max(self.bot.config["tempmute_after"]) <= infractions:
             mins = max(self.bot.config["tempmute_after"].values())
         if mins > 0:
             await self.temp_mute(member, mins, channel, moderator, f"{infractions} infractions, are causing you to get temp muted for {mins} mins")
@@ -223,6 +223,8 @@ class AutoMod(commands.Cog):
     @commands.has_permissions(manage_messages=True)
     async def unmute(self, ctx, member:discord.Member):
         mute = await self.bot.db.mutes.find_one({"active": True, "user": member.id})
+        if not mute:
+            return await ctx.send("This person is not mtued")
         role = member.guild.get_role(self.bot.config["muted_role"])
         try:
             await member.remove_roles(role)
@@ -230,6 +232,7 @@ class AutoMod(commands.Cog):
             pass
         mute["active"] = False
         await self.bot.db.mutes.find_one_and_replace({"_id": mute["_id"]}, mute)
+        await ctx.send("Unmuted!")
 
     @commands.command()
     @commands.has_permissions(manage_messages=True)
