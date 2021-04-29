@@ -70,12 +70,12 @@ class Points(commands.Cog):
             p = r["points"]
         if points > p:
             embed = discord.Embed(colour=discord.Colour.red(
-            ), title="Error!", description="You dont have enough points!")
+            ), title="Error!", description="You don't have enough points!")
             await ctx.send(embed=embed)
             return
 
         if points < 1:
-            raise commands.BadArgument("You cant have less than 1 point")
+            raise commands.BadArgument("You can't have less than 1 point")
 
         r = await self.bot.db.points.find_one({"user": member.id})
         if r:
@@ -101,7 +101,7 @@ class Points(commands.Cog):
             p = r["points"]
         if points > p:
             embed = discord.Embed(colour=discord.Colour.red(
-            ), title="Error!", description="You dont have enough points!")
+            ), title="Error!", description="You don't have enough points!")
             await ctx.send(embed=embed)
             return
         await self.bot.db.points.find_one_and_update({"user": ctx.author.id}, {"$inc": {"points": 0 - points}})
@@ -121,7 +121,7 @@ class Points(commands.Cog):
         await c.send(embed=embed)
         embed = discord.Embed(
             title="Done!",
-            description="Your XP should be added soon!"
+            description="Your package should be awarded soon!"
         )
         await ctx.send(embed=embed)
 
@@ -133,7 +133,7 @@ class Points(commands.Cog):
              list(self.bot.config["buy"].keys())])
         embed = discord.Embed(
             title="Packages",
-            description=f"A list of all packages you can use to convert points into mee6 xp and more!! \n{p}"
+            description=f"A list of all packages you can use to convert points into xp and more!! \n{p}"
         )
         await ctx.send(embed=embed)
 
