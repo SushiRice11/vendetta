@@ -75,3 +75,12 @@ levelbanned: #channels banned from gaining levels
   - 807765313437171712
   - 809336199910129694
 suggestion: 809147522169176146 # suggetion channel
+muted_role: 808100266502258698
+punishments: 824405742722482197
+tempmute_after:
+  3: 30 # 3 infractions for 30 mins
+  7: 60 # 1 hour
+  10: 120 # 2 hours
+  15: 240 # 4 hours
+  20: 1440 # 1 day
+  25: 10080 # 1 week L

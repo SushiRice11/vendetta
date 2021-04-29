@@ -56,16 +56,16 @@ class Stats(commands.Cog):
     def generate_stats(self, wins, losses, member="Overall"):
         if isinstance(member, discord.Member):
             member = member.name + "'s"
-        bg = Image.open("home/ven/assets/minecraft.jpg")
+        bg = Image.open("./assets/minecraft.jpg")
         bg_layer = Image.new("RGBA", bg.size, color=(24, 24, 24, 240))
         bg.paste(bg_layer, (0, 0), bg_layer)
         draw = ImageDraw.Draw(bg)
         fontcolour = (244, 244, 244, 255)
         o = 40
-        big = ImageFont.truetype("home/ven/assets/font.ttf", int(1.5*o))
-        medium = ImageFont.truetype("home/ven/assets/font.ttf", int(1.25*o))
-        small = ImageFont.truetype("home/ven/assets/font.ttf", o)
-        verysmall = ImageFont.truetype("home/ven/assets/font.ttf", int(0.75*o))
+        big = ImageFont.truetype("./assets/font.ttf", int(1.5*o))
+        medium = ImageFont.truetype("./assets/font.ttf", int(1.25*o))
+        small = ImageFont.truetype("./assets/font.ttf", o)
+        verysmall = ImageFont.truetype("./assets/font.ttf", int(0.75*o))
 
         draw.text((o, o), f"{member} Wins", font=big, fill=fontcolour)
         draw.text((o, 3*o), to_str(len(wins)), font=small, fill=fontcolour)

@@ -5,8 +5,11 @@ import os
 from aiohttp import ClientSession
 from motor.motor_asyncio import AsyncIOMotorClient
 from helpers.level import Leveling
+import os
 
-with open("home/ven/config.yaml", "r") as f:
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+with open(f"config.yaml", "r") as f:
     config = yaml.safe_load(f.read())
 
 intents = discord.Intents.default()
@@ -27,12 +30,13 @@ async def on_message(message):
         await bot.process_commands(message)
 
 def run():
-    for i in os.listdir("/home/ven/exts"):
+    """    for i in os.listdir("./exts"):
         if i.endswith(".py"):
             try:
                 bot.load_extension("exts."+ i[:-3:])
             except Exception as e:
-                print(e)
+                print(e)"""
+    bot.load_extension("exts.automod")
     bot.run(bot.config["token"])
 
 

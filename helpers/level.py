@@ -103,7 +103,7 @@ class Leveling:
     async def generate_rank_card(self, member, xp, messages, level, rank):
 
         o = 20
-        im = Image.open("home/ven/assets/minecraft.jpg")
+        im = Image.open("./assets/minecraft.jpg")
         bg_layer = Image.new("RGBA", im.size, color=(24, 24, 24, 200))
         im.paste(bg_layer, (0, 0), bg_layer)
         asset = member.avatar_url_as(size=512, format="png")
@@ -126,10 +126,10 @@ class Leveling:
         draw = ImageDraw.Draw(im)
 
         fontcolour = (244, 244, 244, 255)
-        big = ImageFont.truetype("home/ven/assets/font.ttf", int(3.5*o))
-        medium = ImageFont.truetype("home/ven/assets/font.ttf", int(3*o))
-        small = ImageFont.truetype("home/ven/assets/font.ttf", 2*o)
-        verybig = ImageFont.truetype("home/ven/assets/font.ttf", int(5*o))
+        big = ImageFont.truetype("./assets/font.ttf", int(3.5*o))
+        medium = ImageFont.truetype("./assets/font.ttf", int(3*o))
+        small = ImageFont.truetype("./assets/font.ttf", 2*o)
+        verybig = ImageFont.truetype("./assets/font.ttf", int(5*o))
 
         draw.text((int(im.size[1]/2 - o * 25), o*35),
                   f"{member} | #{rank}", font=big, fill=fontcolour)
