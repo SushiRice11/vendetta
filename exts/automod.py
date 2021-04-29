@@ -209,7 +209,9 @@ class AutoMod(commands.Cog):
         await asyncio.sleep(2)
         async for mute in self.bot.db.mutes.find({"active": True}):
             if (datetime.now - mute["unmute_at"]) > timedelta(seconds=1):
-                role = member.guild.get_role(self.bot.config["muted_role"])
+                guild = self.bot.get_guild(self.config["guild"])
+                member = await guild.fetch_member(mute["user"])
+                role = guild.get_role(self.bot.config["muted_role"])
                 try:
                     await member.remove_roles(role)
                 except:
@@ -218,9 +220,19 @@ class AutoMod(commands.Cog):
                 await self.bot.db.mutes.find_one_and_replace({"_id": mute["_id"]}, mute)
     
     @commands.command()
-    async def
+    @commands.has_permissions(manage_messages=True)
+    async def unmute(self, ctx, member:discord.Member):
+        mute = await self.bot.db.mutes.find_one({"active": True, "user": member.id})
+        role = member.guild.get_role(self.bot.config["muted_role"])
+        try:
+            await member.remove_roles(role)
+        except:
+            pass
+        mute["active"] = False
+        await self.bot.db.mutes.find_one_and_replace({"_id": mute["_id"]}, mute)
 
     @commands.command()
+    @commands.has_permissions(manage_messages=True)
     async def mute(self, ctx, member: discord.Member, mins: int, reason="No given reason."):
         if member.guild_permissions.manage_messages:
             return await ctx.message.reply("You cant mute a moderator.")
