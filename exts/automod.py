@@ -61,11 +61,13 @@ class AutoMod(commands.Cog):
         self.last_processes[message.author.id].append(message)
 
     def is_duplicate(self, m):
-        if len(self.last_processes[m.author.id]) < 3:
+        if len(self.last_processes[m.author.id]) < 4:
             return False
         m2 = self.last_processes[m.author.id][-2]
         m3 = self.last_processes[m.author.id][-3]
-        return m.content.lower() == m2.content.lower() == m3.content.lower()
+        m4 = self.last_processes[m.author.id][-3]
+        return m.content.lower() == m2.content.lower() == m3.content.lower() == m4.content.lower()
+
 
     def is_mention_spam(self, m):
         return False  # for some reason there is bug this is fix for now
