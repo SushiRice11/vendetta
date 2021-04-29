@@ -30,13 +30,12 @@ async def on_message(message):
         await bot.process_commands(message)
 
 def run():
-    """    for i in os.listdir("./exts"):
+    for i in os.listdir("./exts"):
         if i.endswith(".py"):
             try:
                 bot.load_extension("exts."+ i[:-3:])
             except Exception as e:
-                print(e)"""
-    bot.load_extension("exts.automod")
+                print(e)
     bot.run(bot.config["token"])
 
 
