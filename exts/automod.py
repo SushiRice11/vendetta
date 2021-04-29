@@ -272,6 +272,12 @@ class AutoMod(commands.Cog):
             return await ctx.message.reply("You cant warn a moderator.")
         await self.add_infraction(member, ctx.channel, moderator=ctx.author, reason=reason)
 
+    @commands.command()
+    @commands.has_permissions(manage_messages=True)
+    async def purge(self, ctx, limit:int, user:discord.User=None):
+        await ctx.message.delete()
+        await ctx.channel.purge(limit=limit, check=(lambda m: m.author.id == user.id) if user else None)
+        await ctx.send("Done!", delete_after=3)
 
 def setup(bot):
     bot.add_cog(AutoMod(bot))
