@@ -67,7 +67,7 @@ class AutoMod(commands.Cog):
         return m.content.lower() == m2.content.lower() == m3.content.lower()
 
     def is_mention_spam(self, m):
-        if message.refrence: # temporary fix for messages with refrence
+        if m.refrence: # temporary fix for messages with refrence
             return False
         if len(self.last_processes[m.author.id]) < 2:
             return len(m.mentions) > 2
