@@ -94,7 +94,7 @@ class AutoMod(commands.Cog):
         return False
 
     def is_caps(self, message):
-        if len(message.content) < 5:
+        if len(message.content) < 10:
             return False
         if message.content.upper() == message.content != message.content.lower():
             return True
@@ -113,7 +113,7 @@ class AutoMod(commands.Cog):
                 found_emojis.append(word)
         for e in emojis:
             [found_emojis.append(0) for _ in range(message.content.count(e))]
-        return len(found_emojis) > 4
+        return len(found_emojis) > 5
 
     def is_zalgo(self, message):
         return bool(re.search('[̀-ͯ᪰-᫿᷀-᷿⃐-⃿︠-︯]', message.content))
