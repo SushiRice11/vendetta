@@ -1,3 +1,4 @@
+from bson.objectid import ObjectId
 import discord
 from discord.ext import commands, tasks
 import re
@@ -67,7 +68,8 @@ class AutoMod(commands.Cog):
         return m.content.lower() == m2.content.lower() == m3.content.lower()
 
     def is_mention_spam(self, m):
-        if m.reference: # temporary fix for messages with refrence
+        return False  # for some reason there is bug this is fix for now
+        if m.reference:  # temporary fix for messages with refrence
             return False
         if len(self.last_processes[m.author.id]) < 2:
             return len(m.mentions) > 2
@@ -171,7 +173,6 @@ class AutoMod(commands.Cog):
         for i in self.bot.config["tempmute_after"]:
             if infractions == i:
                 mins = self.bot.config["tempmute_after"][i]
-        
 
         if max(self.bot.config["tempmute_after"]) <= infractions:
             mins = max(self.bot.config["tempmute_after"].values())
@@ -203,6 +204,12 @@ class AutoMod(commands.Cog):
         except:
             pass
 
+    @commands.command()
+    @commands.has_permissions(manage_messages=True)
+    async def unwarn(self, ctx, objid:ObjectId):
+        await self.bot.db.infractions.find_one_and_delete({"_id": objid})
+        await ctx.send("Done!")
+
     @tasks.loop(seconds=60)
     async def unmuter(self):
         await self.bot.wait_until_ready()
@@ -218,10 +225,10 @@ class AutoMod(commands.Cog):
                     pass
                 mute["active"] = False
                 await self.bot.db.mutes.find_one_and_replace({"_id": mute["_id"]}, mute)
-    
+
     @commands.command()
     @commands.has_permissions(manage_messages=True)
-    async def unmute(self, ctx, member:discord.Member):
+    async def unmute(self, ctx, member: discord.Member):
         mute = await self.bot.db.mutes.find_one({"active": True, "user": member.id})
         if not mute:
             return await ctx.send("This person is not mtued")
