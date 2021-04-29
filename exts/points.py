@@ -57,7 +57,7 @@ class Points(commands.Cog):
         else:
             p = r["points"]
         await ctx.send(
-            embed=discord.Embed(title=user.name + "'s points!", description=f"{user.name} currentlly has {p} Points!"))
+            embed=discord.Embed(title=user.name + "'s points!", description=f"{user.name} currently has {p} Points!"))
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
