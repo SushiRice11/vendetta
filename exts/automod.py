@@ -67,8 +67,10 @@ class AutoMod(commands.Cog):
         return m.content.lower() == m2.content.lower() == m3.content.lower()
 
     def is_mention_spam(self, m):
-        if len(self.last_processes[m.author.id]) < 2:
+        if message.refrence: # temporary fix for messages with refrence
             return False
+        if len(self.last_processes[m.author.id]) < 2:
+            return len(m.mentions) > 2
         m2 = self.last_processes[m.author.id][-2]
         for ment in m2.mentions:
             if ment in m.mentions:
@@ -167,9 +169,10 @@ class AutoMod(commands.Cog):
             pass
         mins = 0
         for i in self.bot.config["tempmute_after"]:
-            mins = self.bot.config["tempmute_after"][i]
             if infractions == i:
+                mins = self.bot.config["tempmute_after"][i]
                 break
+
         if max(self.bot.config["tempmute_after"]) >= infractions:
             mins = max(self.bot.config["tempmute_after"].values())
         if mins > 0:
@@ -214,6 +217,8 @@ class AutoMod(commands.Cog):
                 mute["active"] = False
                 await self.bot.db.mutes.find_one_and_replace({"_id": mute["_id"]}, mute)
     
+    @commands.command()
+    async def
 
     @commands.command()
     async def mute(self, ctx, member: discord.Member, mins: int, reason="No given reason."):
