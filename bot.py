@@ -26,7 +26,7 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-    if message.channel.id not in bot.config["banned_channels"] or message.author.guild_permissions.manage_messages:
+    if message.author.id not in self.bot.config["banned"] and (message.channel.id not in bot.config["banned_channels"] or message.author.guild_permissions.manage_messages):
         await bot.process_commands(message)
 
 def run():

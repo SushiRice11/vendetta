@@ -200,7 +200,7 @@ class AutoMod(commands.Cog):
         embed.description = f"Reason: `{reason}`\nModerator: {moderator}\nExpires: `{datetime.utcnow() + timedelta(minutes=mins)}`"
         embed.color = discord.Color.red()
         await channel.send(embed=embed)
-        punishments = self.bot.get_channel(self.bot.config["punishments"])
+        punishments = self.bot.get_channel(self.+)
         await punishments.send(embed=embed)
         try:
             embed.title = f"You have been muted for {mins} Minuites!"
@@ -221,6 +221,17 @@ class AutoMod(commands.Cog):
         await asyncio.sleep(2)
         async for mute in self.bot.db.mutes.find({"active": True}):
             if (datetime.utcnow() - mute["unmute_at"]) < timedelta(seconds=1):
+                guild = self.bot.get_guild(self.bot.config["guild"])
+                member = await guild.fetch_member(mute["user"])
+                role = guild.get_role(self.bot.config["muted_role"])
+                try:
+                    await member.remove_roles(role)
+                except:
+                    pass
+                mute["active"] = False
+                await self.bot.db.mutes.find_one_and_replace({"_id": mute["_id"]}, mute)
+        async for ban in self.bot.db.bans.find({"active": True}):
+            if (datetime.utcnow() - ban["unban_at"]) < timedelta(seconds=1):
                 guild = self.bot.get_guild(self.bot.config["guild"])
                 member = await guild.fetch_member(mute["user"])
                 role = guild.get_role(self.bot.config["muted_role"])

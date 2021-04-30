@@ -84,3 +84,5 @@ tempmute_after:
   15: 240 # 4 hours
   20: 1440 # 1 day
   25: 10080 # 1 week L
+banned: 
+  - 123
