@@ -167,6 +167,8 @@ class AutoMod(commands.Cog):
         embed.description = f"Reason: `{reason}`\nModerator: {moderator}"
         embed.color = discord.Color.red()
         await channel.send(embed=embed)
+        punishments = self.bot.get_channel(self.bot.config["punishments"])
+        await punishments.send(embed=embed)
         try:
             embed.title = "You have been warned!"
             await member.send(embed=embed)
@@ -198,6 +200,8 @@ class AutoMod(commands.Cog):
         embed.description = f"Reason: `{reason}`\nModerator: {moderator}\nExpires: `{datetime.utcnow() + timedelta(minutes=mins)}`"
         embed.color = discord.Color.red()
         await channel.send(embed=embed)
+        punishments = self.bot.get_channel(self.bot.config["punishments"])
+        await punishments.send(embed=embed)
         try:
             embed.title = f"You have been muted for {mins} Minuites!"
             await member.send(embed=embed)
@@ -212,6 +216,7 @@ class AutoMod(commands.Cog):
 
     @tasks.loop(seconds=60)
     async def unmuter(self):
+        print("unmuting...")
         await self.bot.wait_until_ready()
         await asyncio.sleep(2)
         async for mute in self.bot.db.mutes.find({"active": True}):
