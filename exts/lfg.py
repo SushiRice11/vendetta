@@ -411,7 +411,7 @@ class LookingForGame(commands.Cog):
             await ctx.send("**Only the party leader (or admins) can do this!**")
 
     @commands.command()
-    async def kick(self, ctx, member:discord.Member):
+    async def remove(self, ctx, member:discord.Member):
         party = await Party.from_channel(self.bot, ctx.channel)
         if not party:
             raise discord.DiscordException("No party found")
