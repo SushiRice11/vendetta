@@ -364,8 +364,8 @@ class LookingForGame(commands.Cog):
         role = payload.member.guild.get_role(doc["role"])
         if payload.member.id in self.p_cooldowns:
             return
-        await Party.new_party(self.bot, game, role, payload.member, channel)
         self.p_cooldowns.append(payload.member.id)
+        await Party.new_party(self.bot, game, role, payload.member, channel)
         await asyncio.sleep(60*60)
         self.p_cooldowns.remove(payload.member.id)
 
