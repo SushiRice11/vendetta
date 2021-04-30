@@ -86,3 +86,5 @@ tempmute_after:
   25: 10080 # 1 week L
 banned: 
   - 123
+ignore_spam:
+  - 807765313437171712

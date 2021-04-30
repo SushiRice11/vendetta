@@ -131,6 +131,8 @@ class AutoMod(commands.Cog):
         if self.is_zalgo(message):
             await message.delete()
             return await self.add_infraction(message.author, message.channel, reason="Zalgo Usage.")
+        if message.channel.id in self.bot.config["ignore_spam"]:
+            return
         if self.is_emoji_spam(message):
             await message.delete()
             return await self.add_infraction(message.author, message.channel, reason="Emoji Spam.")
