@@ -86,10 +86,11 @@ class AutoMod(commands.Cog):
         return False
 
     def is_spam(self, message):
-        if len(self.last_processes[message.author.id]) < 3:
+        return False
+        if len(self.last_processes[message.author.id]) < 4:
             return False
-        m3 = self.last_processes[message.author.id][-3]
-        if (message.created_at - m3.created_at).seconds < 1:
+        m4 = self.last_processes[message.author.id][-4]
+        if (message.created_at - m4.created_at).seconds < 1:
             return True
         return False
 
@@ -215,7 +216,7 @@ class AutoMod(commands.Cog):
         await self.bot.wait_until_ready()
         await asyncio.sleep(2)
         async for mute in self.bot.db.mutes.find({"active": True}):
-            if (datetime.now - mute["unmute_at"]) < timedelta(seconds=1):
+            if (datetime.utcnow() - mute["unmute_at"]) < timedelta(seconds=1):
                 guild = self.bot.get_guild(self.bot.config["guild"])
                 member = await guild.fetch_member(mute["user"])
                 role = guild.get_role(self.bot.config["muted_role"])

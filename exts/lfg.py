@@ -366,14 +366,14 @@ class LookingForGame(commands.Cog):
             return
         await Party.new_party(self.bot, game, role, payload.member, channel)
         self.p_cooldowns.append(payload.member.id)
-        await asyncio.sleep(20*60)
+        await asyncio.sleep(60*60)
         self.p_cooldowns.remove(payload.member.id)
 
     @commands.command()
     async def accept(self, ctx, party_id: convert_invite, invite_id: convert_invite):
         party = await Party.from_id(self.bot, party_id)
         if not party:
-            raise discord.NotFound("No party found")
+            raise discord.DiscordException("No party found")
         await party.accept_invite(ctx.author, invite_id)
         await ctx.send("Party joined!")
 
@@ -381,7 +381,7 @@ class LookingForGame(commands.Cog):
     async def deny(self, ctx, party_id: convert_invite, invite_id: convert_invite):
         party = await Party.from_id(self.bot,party_id)
         if not party:
-            raise discord.NotFound("No party found")
+            raise discord.DiscordException("No party found")
         await party.deny_invite(ctx.author, invite_id)
         await ctx.send("Party Denied!")
 
@@ -389,7 +389,7 @@ class LookingForGame(commands.Cog):
     async def invite(self, ctx, member: discord.Member):
         party = await Party.from_channel(self.bot, ctx.channel)
         if not party:
-            raise discord.NotFound("No party found")
+            raise discord.DiscordException("No party found")
         await party.invite(member)
         await ctx.send("**Invited!**")
 
@@ -397,14 +397,14 @@ class LookingForGame(commands.Cog):
     async def leave(self, ctx):
         party = await Party.from_channel(self.bot, ctx.channel)
         if not party:
-            raise discord.NotFound("No party found")
+            raise discord.DiscordException("No party found")
         await party.leave(ctx.author)
 
     @commands.command()
     async def disband(self, ctx):
         party = await Party.from_channel(self.bot, ctx.channel)
         if not party:
-            raise discord.NotFound("No party found")
+            raise discord.DiscordException("No party found")
         if ctx.author.id == party.leader.id or ctx.author.guild_permissions.administrator:
             await party.disband()
         else:
@@ -414,7 +414,7 @@ class LookingForGame(commands.Cog):
     async def kick(self, ctx, member:discord.Member):
         party = await Party.from_channel(self.bot, ctx.channel)
         if not party:
-            raise discord.NotFound("No party found")
+            raise discord.DiscordException("No party found")
         if ctx.author.id == party.leader.id or ctx.author.guild_permissions.administrator:
             await party.leave(member)
         else:
