@@ -86,11 +86,10 @@ class AutoMod(commands.Cog):
         return False
 
     def is_spam(self, message):
-        return False
-        if len(self.last_processes[message.author.id]) < 4:
+        if len(self.last_processes[message.author.id]) < 5:
             return False
-        m4 = self.last_processes[message.author.id][-4]
-        if (message.created_at - m4.created_at).seconds < 1:
+        m5 = self.last_processes[message.author.id][-5]
+        if (message.created_at - m5.created_at).seconds < 2:
             return True
         return False
 
