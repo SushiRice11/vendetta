@@ -230,6 +230,7 @@ class AutoMod(commands.Cog):
                     pass
                 mute["active"] = False
                 await self.bot.db.mutes.find_one_and_replace({"_id": mute["_id"]}, mute)
+
         async for ban in self.bot.db.bans.find({"active": True}):
             if (datetime.utcnow() - ban["unban_at"]) < timedelta(seconds=1):
                 guild = self.bot.get_guild(self.bot.config["guild"])
@@ -240,6 +241,72 @@ class AutoMod(commands.Cog):
                     pass
                 ban["active"] = False
                 await self.bot.db.mutes.find_one_and_replace({"_id": mute["_id"]}, mute)
+
+    @commands.command()
+    @commands.has_permissions(kick_members=True)
+    async def kick(self, ctx, member:discord.Member, reason="No given reason."):
+        if member.guild_permissions.manage_messages:
+            return await ctx.message.reply("You cant kick a moderator.")
+        embed = discord.Embed()
+        embed.title = f"{member} has been kicked!"
+        embed.description = f"Reason: `{reason}`\nModerator: {ctx.author}`"
+        embed.color = discord.Color.red()
+        await ctx.send(embed=embed)
+        punishments = self.bot.get_channel(self.bot.config["punishments"])
+        await punishments.send(embed=embed)
+        try:
+            embed.title = f"You have been kicked!"
+            await member.send(embed=embed)
+        except:
+            pass
+        await member.kick(reason=reason)
+
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    async def ban(self, ctx, member:discord.Member, reason="No given reason."):
+        if member.guild_permissions.ban_members:
+            return await ctx.message.reply("You cant ban a moderator.")
+        embed = discord.Embed()
+        embed.title = f"{member} has been banned!"
+        embed.description = f"Reason: `{reason}`\nModerator: {ctx.author}`"
+        embed.color = discord.Color.red()
+        await ctx.send(embed=embed)
+        punishments = self.bot.get_channel(self.bot.config["punishments"])
+        await punishments.send(embed=embed)
+        try:
+            embed.title = f"You have been banned!"
+            await member.send(embed=embed)
+        except:
+            pass
+        await member.ban(reason=reason)
+
+
+    @commands.command()
+    @commands.has_permissions(kick_members=True)
+    async def tempban(self, ctx, member:discord.Member, mins:int, reason="No given reason."):
+        if member.guild_permissions.manage_messages:
+            return await ctx.message.reply("You cant kick a moderator.")
+        embed = discord.Embed()
+        embed.title = f"{member} has been kicked!"
+        embed.description = f"Reason: `{reason}`\nModerator: {ctx.author}`"
+        embed.color = discord.Color.red()
+        await ctx.send(embed=embed)
+        punishments = self.bot.get_channel(self.bot.config["punishments"])
+        await punishments.send(embed=embed)
+        try:
+            embed.title = f"You have been kicked!"
+            await member.send(embed=embed)
+        except:
+            pass
+        await member.ban(reason=reason)
+        await self.bot.db.mutes.insert_one({
+            "user": member.id,
+            "moderator": ctx.author.id,
+            "reason": reason,
+            "time": datetime.utcnow(),
+            "active": True,
+            "unban_at": datetime.utcnow() + timedelta(minutes=mins)
+        })
 
     @commands.command()
     @commands.has_permissions(manage_messages=True)
