@@ -116,7 +116,10 @@ class AutoMod(commands.Cog):
         return len(found_emojis) > 5
 
     def is_zalgo(self, message):
-        return bool(re.search('[̀-ͯ᪰-᫿᷀-᷿⃐-⃿︠-︯]', message.content))
+        y = message.content
+        for e in emojis:
+            y = y.replace(e, "")
+        return bool(re.search('[̀-ͯ᪰-᫿᷀-᷿⃐-⃿︠-︯]', y))
 
     @commands.Cog.listener()
     async def on_message(self, message):
