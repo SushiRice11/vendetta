@@ -214,7 +214,21 @@ class Casino(commands.Cog):
                 await self.bot.db.points.find_one_and_update({"user": challenged.id}, {"$inc": {"points": amount}})
                 for u in challenged, ctx.author:
                     await u.send(embed=embed)
-
+    
+    @commands.command(aliases=["daily","dailyreward","sushi","dr"])
+    @commands.cooldown(1,86400, command.BucketType.user)
+    @commands.cooldown(30,50, command.BucketType.guild)
+    async def dailyreward(self, ctx):
+        
+       r = await self.bot.db.points.find_one({"user": user.id})
+       if r:
+            await self.bot.db.points.find_one_and_update({"user": user.id}, {"$inc": {"points": 5 - amount}})
+            embed = discord.Embed()
+            embed.color = discord.Color.green()
+            embed.title = "Claimed Daily Reward"
+            embed.description = "You earned 5 points!"
+            await ctx.send(embed=embed)
+            
 
 
 def setup(bot):
