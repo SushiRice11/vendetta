@@ -215,7 +215,15 @@ class Casino(commands.Cog):
                 for u in challenged, ctx.author:
                     await u.send(embed=embed)
 
-
-
+    @commands.command(aliases=["daily","dailyreward","sushi","dr"])
+    @commands.cooldown(1,86400, command.BucketType.user)
+    @commands.cooldown(30,10, command.BucketType.guild)
+    async def gamble(self, ctx):
+        r = await self.bot.db.points.find_one_and_update({"user": ctx.author.id}. {"$inc": {"points": 0 -amount}})
+        
+        
+    
+        
+    
 def setup(bot):
     bot.add_cog(Casino(bot))
