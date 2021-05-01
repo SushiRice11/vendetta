@@ -116,14 +116,9 @@ class AutoMod(commands.Cog):
         return len(found_emojis) > 5
 
     def is_zalgo(self, message):
-        regrex_pattern = re.compile(pattern = "["
-        u"\U0001F600-\U0001F64F"  # emoticons
-        u"\U0001F300-\U0001F5FF"  # symbols & pictographs
-        u"\U0001F680-\U0001F6FF"  # transport & map symbols
-        u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
-                           "]+", flags = re.UNICODE)
-                           
-        y = regrex_pattern.sub(r"", message.content)
+        e = ['0️⃣','1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣']
+        for em in e:
+            y = y.repalce(em, "")
         
         return bool(re.search('[̀-ͯ᪰-᫿᷀-᷿⃐-⃿︠-︯]', y))
 
