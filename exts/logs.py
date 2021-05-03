@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from datetime import datetime
 
 class Logs(commands.Cog):
@@ -7,13 +7,14 @@ class Logs(commands.Cog):
         self.bot = bot
         self.messages, self.user, self.punishment = None, None, None
 
-    @commands.Cog.listener()
-    async def on_ready(self):
+    @tasks.loop(seconds=60)
+    async def update_log_channels(self):
         print("Saving log channels...")
+        await self.wait_until_ready()
         self.messages = self.bot.get_channel(self.bot.config["logs"]["messages"])
         self.user = self.bot.get_channel(self.bot.config["logs"]["user"])
         self.punishment = self.bot.get_channel(self.bot.config["logs"]["punishment"])
-    
+        print(self.messages)
 
     @commands.Cog.listener()
     async def on_message_delete(self, message):
