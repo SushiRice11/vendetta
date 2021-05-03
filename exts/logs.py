@@ -6,6 +6,10 @@ class Logs(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.messages, self.user, self.punishment = None, None, None
+        self.update_log_channels.start()
+    
+    def cog_unload(self):
+        self.update_log_channels.cancel()
 
     @tasks.loop(seconds=60)
     async def update_log_channels(self):
