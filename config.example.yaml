@@ -88,3 +88,7 @@ banned:
   - 123
 ignore_spam:
   - 807765313437171712
+logs_channels:
+  message: 838701043231227945
+  user: 838701065690939453
+  punishment: 824405742722482197
