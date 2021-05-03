@@ -9,6 +9,7 @@ class Logs(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
+        print("Saving log channels...")
         self.messages = self.bot.get_channel(self.bot.config["logs"]["messages"])
         self.user = self.bot.get_channel(self.bot.config["logs"]["user"])
         self.punishment = self.bot.get_channel(self.bot.config["logs"]["punishment"])
@@ -16,35 +17,31 @@ class Logs(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message_delete(self, message):
-        if self.messages:
-            embed = discord.Embed(title=f"Message sent by {message.author} deleted!", description=f"**Channel**: {message.channel.mention}\n**Content**:\n{message.content}", color=discord.Color.red())
-            embed.timestamp = datetime.now()
-            await self.messages.send(embed=embed)
+        embed = discord.Embed(title=f"Message sent by {message.author} deleted!", description=f"**Channel**: {message.channel.mention}\n**Content**:\n{message.content}", color=discord.Color.red())
+        embed.timestamp = datetime.now()
+        await self.messages.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_message_edit(self, b, a):
-        if self.messages:
-            embed = discord.Embed(title=f"(Message)[{a.jump_url}] sent by {a.author} edited!", description=f"**Channel**: {a.channel.mention} \n**Before**:\n{b.content}\n**After**:\n{a.content}", color=discord.Color.yellow())
-            embed.timestamp = datetime.now()
-            await self.messages.send(embed=embed)
+        embed = discord.Embed(title=f"(Message)[{a.jump_url}] sent by {a.author} edited!", description=f"**Channel**: {a.channel.mention} \n**Before**:\n{b.content}\n**After**:\n{a.content}", color=discord.Color.yellow())
+        embed.timestamp = datetime.now()
+        await self.messages.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        if self.user:
-            embed = discord.Embed(description=f"**Created At**: {member.created_at}", color=discord.Color.green())
-            embed.set_author(name=f"{member} Joined!", icon_url=member.avatar_url)
-            embed.set_thumbnail(url=member.avatar_url)
-            embed.timestamp = datetime.now()
-            await self.user.send(embed=embed)
+        embed = discord.Embed(description=f"**Created At**: {member.created_at}", color=discord.Color.green())
+        embed.set_author(name=f"{member} Joined!", icon_url=member.avatar_url)
+        embed.set_thumbnail(url=member.avatar_url)
+        embed.timestamp = datetime.now()
+        await self.user.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
-        if self.user:
-            embed = discord.Embed(description=f"**ID**: {member.id}", color=discord.Color.red())
-            embed.set_author(name=f"{member} Left!", icon_url=member.avatar_url)
-            embed.set_thumbnail(url=member.avatar_url)
-            embed.timestamp = datetime.now()
-            await self.user.send(embed=embed)
+        embed = discord.Embed(description=f"**ID**: {member.id}", color=discord.Color.red())
+        embed.set_author(name=f"{member} Left!", icon_url=member.avatar_url)
+        embed.set_thumbnail(url=member.avatar_url)
+        embed.timestamp = datetime.now()
+        await self.user.send(embed=embed)
     
     @commands.Cog.listener()
     async def on_member_update(self, b, a):
@@ -54,9 +51,6 @@ class Logs(commands.Cog):
             embed.set_thumbnail(url=a.avatar_url)
             embed.timestamp = datetime.now()
             await self.user.send(embed=embed)
-        
-        
-
 
 
 def setup(bot):
