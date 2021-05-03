@@ -22,13 +22,18 @@ class Logs(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message_delete(self, message):
-        embed = discord.Embed(title=f"Message sent by {message.author} deleted!", description=f"**Channel**: {message.channel.mention}\n**Content**:\n{message.content}", color=discord.Color.red())
+        embed = discord.Embed(
+            title=f"Message sent by {message.author} deleted!", 
+            description=f"**Channel**: {message.channel.mention}\n**Content**:\n{message.content}", 
+            color=discord.Color.red())
         embed.timestamp = datetime.now()
         await self.messages.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_message_edit(self, b, a):
-        embed = discord.Embed(title=f"(Message)[{a.jump_url}] sent by {a.author} edited!", description=f"**Channel**: {a.channel.mention} \n**Before**:\n{b.content}\n**After**:\n{a.content}", color=discord.Color.yellow())
+        if b.content == a.content:
+            return
+        embed = discord.Embed(title=f"(Message)[{a.jump_url}] sent by {a.author} edited!", description=f"**Channel**: {a.channel.mention} \n**Before**:\n{b.content}\n**After**:\n{a.content}", color=discord.Color.orange())
         embed.timestamp = datetime.now()
         await self.messages.send(embed=embed)
 
