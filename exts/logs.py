@@ -15,9 +15,9 @@ class Logs(commands.Cog):
     async def update_log_channels(self):
         print("Saving log channels...")
         await self.bot.wait_until_ready()
-        self.messages = self.bot.get_channel(self.bot.config["logs"]["messages"])
-        self.user = self.bot.get_channel(self.bot.config["logs"]["user"])
-        self.punishment = self.bot.get_channel(self.bot.config["logs"]["punishment"])
+        self.messages = self.bot.get_channel(self.bot.config["logs_channels"]["messages"])
+        self.user = self.bot.get_channel(self.bot.config["logs_channels"]["user"])
+        self.punishment = self.bot.get_channel(self.bot.config["logs_channels"]["punishment"])
         print(self.messages)
 
     @commands.Cog.listener()
