@@ -266,7 +266,7 @@ class AutoMod(commands.Cog):
     @commands.command()
     @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, member:discord.Member, reason="No given reason."):
-        if member.guild_permissions.ban_members:
+        if member.guild_permissions.manage_members:
             return await ctx.message.reply("You cant ban a moderator.")
         embed = discord.Embed()
         embed.title = f"{member} has been banned!"
