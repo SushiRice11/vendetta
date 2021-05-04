@@ -152,7 +152,7 @@ class AutoMod(commands.Cog):
             return
         if self.is_mention_spam(message):
             return await self.add_infraction(message.author, message.channel, reason="Mention Spam.")
-        if self.is_duplicate(message) and not message.content.startswith(self.bot.config["preifx"]):
+        if self.is_duplicate(message) and not message.content.startswith(self.bot.config["prefix"]):
             await message.delete()
             return await self.add_infraction(message.author, message.channel, reason="Duplicate Messages.")
         if self.is_spam(message):

@@ -260,7 +260,7 @@ c = {
 
 def random_url_name():
 
-    e = random.choice(c)
+    e = random.choice(list(c.keys()))
     return f"https://cdn.jsdelivr.net/gh/hampusborgos/country-flags@main/png250px/{e.lower()}.png", c[e]
 
 
@@ -318,7 +318,7 @@ class GTF(commands.Cog):
                 color=discord.Color.blue()
             )
 
-            embed.set_image(self.flag_url)
+            embed.set_image(url=self.flag_url)
 
             embed.set_footer(
                 text=f"1st place gets {self.bot.config['winnings'][0]} Points!")
