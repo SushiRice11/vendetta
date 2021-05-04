@@ -17,12 +17,10 @@ class Logs(commands.Cog):
         await self.bot.wait_until_ready()
         self.messages = self.bot.get_channel(self.bot.config["logs_channels"]["message"])
         self.user = self.bot.get_channel(self.bot.config["logs_channels"]["user"])
-        self.punishment = self.bot.get_channel(self.bot.config["logs_channels"]["punishment"])
-        
+        self.punishment = self.bot.get_channel(self.bot.config["logs_channels"]["punishment"])        
 
     @commands.Cog.listener()
     async def on_message_delete(self, message):
-        print("e")
         embed = discord.Embed(
             title=f"Message sent by {message.author} deleted!", 
             description=f"**Channel**: {message.channel.mention}\n**Content**:\n{message.content}", 
@@ -32,10 +30,9 @@ class Logs(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message_edit(self, b, a):
-        print(b, a)
         if b.content == a.content:
             return
-        embed = discord.Embed(title=f"(Message)[{a.jump_url}] sent by {a.author} edited!", description=f"**Channel**: {a.channel.mention} \n**Before**:\n{b.content}\n**After**:\n{a.content}", color=discord.Color.orange())
+        embed = discord.Embed(url=a.jump_url, title=f"Message sent by {a.author} edited!", description=f"**Channel**: {a.channel.mention} \n**Before**:\n{b.content}\n**After**:\n{a.content}", color=discord.Color.orange())
         embed.timestamp = datetime.now()
         await self.messages.send(embed=embed)
 
