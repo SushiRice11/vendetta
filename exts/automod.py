@@ -94,6 +94,7 @@ class AutoMod(commands.Cog):
         return False
 
     def is_caps(self, message):
+        return False
         if len(message.content) < 10:
             return False
         if message.content.upper() == message.content != message.content.lower():
