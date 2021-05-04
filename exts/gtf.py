@@ -1,5 +1,5 @@
 import random
-from discord.ext import commands
+from discord.ext import commands, tasks
 import discord
 
 c = {
@@ -17,7 +17,6 @@ c = {
     "AT": "Austria",
     "AU": "Australia",
     "AW": "Aruba",
-    "AX": "\u00c5land Islands",
     "AZ": "Azerbaijan",
     "BA": "Bosnia and Herzegovina",
     "BB": "Barbados",
@@ -46,7 +45,6 @@ c = {
     "CF": "Central African Republic",
     "CG": "Republic of the Congo",
     "CH": "Switzerland",
-    "CI": "C\u00f4te d'Ivoire",
     "CK": "Cook Islands",
     "CL": "Chile",
     "CM": "Cameroon",
@@ -55,7 +53,6 @@ c = {
     "CR": "Costa Rica",
     "CU": "Cuba",
     "CV": "Cape Verde",
-    "CW": "Cura\u00e7ao",
     "CX": "Christmas Island",
     "CY": "Cyprus",
     "CZ": "Czech Republic",
@@ -333,7 +330,7 @@ class GTF(commands.Cog):
 
     @commands.command()
     @commands.has_guild_permissions(administrator=True)
-    async def gtf(self, ctx):
+    async def guesstheflag(self, ctx):
         """
         Starts a gtf in the current channel
         """
