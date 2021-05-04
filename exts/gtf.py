@@ -358,7 +358,7 @@ class GTF(commands.Cog):
                         await self.bot.db.points.insert_one({"user": user.id, "points": win})
                     self.already_won.append(message.author.id)
                     if self.remaining_winnings == []:
-                        await message.channel.send(embed=discord.Embed(color=discord.Color.blue(), title="Finished!", description=f"The country was: {f_n(self.cname)}!").set_footer(text="All prizes have been rewarded"))
+                        await message.channel.send(embed=discord.Embed(color=discord.Color.blue(), title="Finished!", description=f"The country was: {self.cname}!").set_footer(text="All prizes have been rewarded"))
                         await message.channel.set_permissions(message.channel.guild.default_role, send_messages=False)
 
 
