@@ -30,7 +30,7 @@ class Tourney(commands.Cog):
             "channel": tchannel.id,
             "start_date": start_date,
             "name": tname,
-            "desc": tdsec,
+            "desc": tdesc,
             "max_size": tmaxpart,
             "team_size": teamsize,
             "signed_up": [],
