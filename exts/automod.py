@@ -228,7 +228,7 @@ class AutoMod(commands.Cog):
         await self.bot.wait_until_ready()
         await asyncio.sleep(2)
         async for mute in self.bot.db.mutes.find({"active": True}):
-            if (datetime.utcnow() - mute["unmute_at"]) < timedelta(seconds=1):
+            if (datetime.utcnow() - mute["unmute_at"]) > timedelta(seconds=1):
                 guild = self.bot.get_guild(self.bot.config["guild"])
                 member = await guild.fetch_member(mute["user"])
                 role = guild.get_role(self.bot.config["muted_role"])
