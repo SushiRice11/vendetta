@@ -11,7 +11,7 @@ class Tourney(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def start_tourney(self, ctx, participant_role: discord.Role, tchannel: discord.TextChannel, year: int, month: int, day: int, hour: int, mins: int, tname, tdesc, tmaxpart: int, teamsize: int = 1):
-        start_date = datetime.utc(
+        start_date = datetime(
             year, month, day, hour, mins, 0, tzinfo=timezone.utc)
         embed = discord.Embed()
         embed.color = discord.Color.blurple()
