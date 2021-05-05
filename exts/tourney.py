@@ -10,7 +10,7 @@ class Tourney(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(administrator=True)
-    async def start_tourney(self, ctx, participant_role: discord.Role, tchannel: discord.TextChannel, year: int, month: int, day: int, hour: int, mins: int, tname, tdesc, tmaxpart: int, teamsize: int = 1):
+    async def start_tourney(self, ctx, participant_role: discord.Role, backup_role: discord.Role, tchannel: discord.TextChannel, year: int, month: int, day: int, hour: int, mins: int, tname, tdesc, tmaxpart: int, teamsize: int = 1):
         start_date = datetime(
             year, month, day, hour, mins, 0, tzinfo=timezone.utc)
         embed = discord.Embed()
@@ -36,7 +36,8 @@ class Tourney(commands.Cog):
             "signed_up": [],
             "message": m.id,
             "creator": ctx.author.id,
-            "participant_role": participant_role.id
+            "participant_role": participant_role.id,
+            "backup_role": backup_role.id
         })
 
     @commands.Cog.listener()
@@ -63,13 +64,17 @@ class Tourney(commands.Cog):
         name = await uuid_to_name(self.bot, d["uuid"])
 
         doc["signed_up"].append(d)
-        role = payload.member.guild.get_role(doc["participant_role"])
+        
+        if len(doc["signed_up"]) >= doc["max_size"]:
+            role = payload.member.guild.get_role(doc["backup_role"])
+        else:
+            role = payload.member.guild.get_role(doc["participant_role"])
         try:
             await payload.member.add_roles(role)
         except:
             pass
         try:
-            await member.send(f"You joined the {doc['name']}")
+            await payload.member.send(f"You joined the {doc['name']}" + ('as a backup!' if len(doc["signed_up"]) >= doc["max_size"] else '!'))
         except:
             pass
         await self.bot.db.tourneys.find_one_and_replace({"_id": doc["_id"]}, doc)
