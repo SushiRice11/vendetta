@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands, tasks
 from datetime import datetime, timedelta, timezone
-from helpers.hypixel import name_to_uuid
+from helpers.hypixel import name_to_uuid, uuid_to_name
 
 
 class Tourney(commands.Cog):
@@ -52,12 +52,14 @@ class Tourney(commands.Cog):
         d = await self.bot.db["links"].find_one({
             "user": payload.user_id
         })
+        channel = self.bot.get_channel(payload.channel_id)
+        message = await channel.fetch_message(payload.message_id)
         if not d:
             embed = discord.Embed()
             embed.color = discord.Color.red()
             embed.title = "Not Linked!"
             embed.description = "We couldnt find a linked account, please use the verify channel!"
-            return await ctx.send(embed=embed, delete_after=3)
+            return await channel.send(embed=embed, delete_after=3)
         name = await uuid_to_name(self.bot, d["uuid"])
 
         doc["signed_up"].append(d)
@@ -70,21 +72,19 @@ class Tourney(commands.Cog):
             await member.send(f"You joined the {doc['name']}")
         except:
             pass
-        await self.bot.db.tourneys.find_one_and_update({"_id": doc["_id"]}, doc)
-        channel = self.bot.get_channel(payload.channel_id)
-        message = await channel.fetch_message(payload.message_id)
+        await self.bot.db.tourneys.find_one_and_replace({"_id": doc["_id"]}, doc)
         embed = discord.Embed()
         embed.color = discord.Color.blurple()
-        embed.title = tname
-        embed.description = f"""React with :crossed_swords: to sign up for the upcoming {tname}! 
-        Starts at (UTC): {start_date}
-        Max Participants: {tmaxpart} (You can still enter as a backup player, after this has been passed)
+        embed.title = doc["name"]
+        embed.description = f"""React with :crossed_swords: to sign up for the upcoming {doc["name"]}! 
+        Starts at (UTC): {doc["start_date"]}
+        Max Participants: {doc["max_size"]} (You can still enter as a backup player, after this has been passed)
         Signed-up: {len(doc["signed_up"])}
-        Team Size: {teamsize} (Teams are randomly choosen)
-        {tdesc}"""
+        Team Size: {doc["team_size"]} (Teams are randomly choosen)
+        {doc["desc"]}"""
         embed.set_footer(
             text="By reacting you agree to getting notified further about this tourney. You aren't garantueed an entry by reacting.")
-        m = await m.edit(embed=embed)
+        await message.edit(embed=embed)
 
 
 def setup(bot):
