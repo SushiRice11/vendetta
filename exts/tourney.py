@@ -8,7 +8,7 @@ class Tourney(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.commands()
+    @commands.command()
     @commands.has_permissions(administrator=True)
     async def start_tourney(self, ctx, participant_role: discord.Role, tchannel: discord.TextChannel, year: int, month: int, day: int, hour: int, mins: int, tname, tdesc, tmaxpart: int, teamsize: int = 1):
         start_date = datetime.utc(
