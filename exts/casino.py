@@ -10,9 +10,7 @@ def rigged_coice(true, false):
     return random.choice(w)
 
 def roundhalf(x):
-    x = x/2
-    if x[:-1] == 5:
-        x = x + 0.5
+    return x // 2
 
 def to_str(num):
     if num < 1000:
