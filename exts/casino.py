@@ -9,6 +9,10 @@ def rigged_coice(true, false):
     w = [True] * true + [False] * false
     return random.choice(w)
 
+def roundhalf(x):
+    x = x/2
+    if x[:-1] == 5:
+        x = x + 0.5
 
 def to_str(num):
     if num < 1000:
@@ -52,6 +56,8 @@ class Casino(commands.Cog):
         except:
             if amount.lower() == "all":
                 amount = r["points"]
+            elif amount.lower() == "half":
+                amount = roundhalf(r["points"])
             else:
                 raise ValueError(amount)
         if r["points"] < amount:
