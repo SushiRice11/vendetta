@@ -9,6 +9,8 @@ def rigged_coice(true, false):
     w = [True] * true + [False] * false
     return random.choice(w)
 
+def roundhalf(x):
+    return x // 2
 
 def to_str(num):
     if num < 1000:
@@ -52,6 +54,8 @@ class Casino(commands.Cog):
         except:
             if amount.lower() == "all":
                 amount = r["points"]
+            elif amount.lower() == "half":
+                amount = roundhalf(r["points"])
             else:
                 raise ValueError(amount)
         if r["points"] < amount:
@@ -214,8 +218,45 @@ class Casino(commands.Cog):
                 await self.bot.db.points.find_one_and_update({"user": challenged.id}, {"$inc": {"points": amount}})
                 for u in challenged, ctx.author:
                     await u.send(embed=embed)
+                    
+    @commands.command(aliases=["dr", "daily"])
+    @commands.cooldown(1, 60*60*24, commands.BucketType.user)
+    @commands.cooldown(10, 45, commands.BucketType.guild)
+    async def dailyreward(self, ctx):
+        await self.bot.db.points.find_one_and_update({"user": ctx.author.id}, {"$inc": {"points":  15}}) 
+        embed = discord.Embed() 
+        embed.title = "Claimed Daily Reward"
+        embed.description = "You Earned 15 Points!"
+
+        embed.color = discord.Color.green() 
+        await ctx.send(embed=embed)
+
+    @commands.command(aliases=["hr", "hourly"])
+    @commands.cooldown(1, 60*60, commands.BucketType.user)
+    @commands.cooldown(10, 45, commands.BucketType.guild)
+    async def hourlyreward(self, ctx):
+        await self.bot.db.points.find_one_and_update({"user": ctx.author.id}, {"$inc": {"points":  5}}) 
+        embed = discord.Embed() 
+        embed.title = "Claimed Hourly Reward"
+        embed.description = "You Earned 5 Points!"
+
+        embed.color = discord.Color.green() 
+        await ctx.send(embed=embed)
 
 
+    @commands.command(aliases=["wr", "weekly"])
+    @commands.cooldown(1, 60*60*24*7, commands.BucketType.user)
+    @commands.cooldown(10, 45, commands.BucketType.guild)
+    async def weeklyreward(self, ctx):
+        await self.bot.db.points.find_one_and_update({"user": ctx.author.id}, {"$inc": {"points":  50}}) 
+        embed = discord.Embed() 
+        embed.title = "Claimed Weekly Reward"
+        embed.description = "You Earned 50 Points!"
+
+        embed.color = discord.Color.green() 
+        await ctx.send(embed=embed)
+
+        
 
 def setup(bot):
     bot.add_cog(Casino(bot))
