@@ -204,14 +204,14 @@ class AutoMod(commands.Cog):
             "unmute_at": datetime.utcnow() + timedelta(minutes=mins)
         })
         embed = discord.Embed()
-        embed.title = f"{member} has been muted for {mins} Minuites!"
+        embed.title = f"{member} has been muted for {mins} Minutes!"
         embed.description = f"Reason: `{reason}`\nModerator: {moderator}\nExpires: `{datetime.utcnow() + timedelta(minutes=mins)}`"
         embed.color = discord.Color.red()
         await channel.send(embed=embed)
         punishments = self.bot.get_channel(self.bot.config["punishments"])
         await punishments.send(embed=embed)
         try:
-            embed.title = f"You have been muted for {mins} Minuites!"
+            embed.title = f"You have been muted for {mins} Minutes!"
             await member.send(embed=embed)
         except:
             pass
@@ -321,7 +321,7 @@ class AutoMod(commands.Cog):
     async def unmute(self, ctx, member: discord.Member):
         mute = await self.bot.db.mutes.find_one({"active": True, "user": member.id})
         if not mute:
-            return await ctx.send("This person is not mtued")
+            return await ctx.send("This person is not muted")
         role = member.guild.get_role(self.bot.config["muted_role"])
         try:
             await member.remove_roles(role)
