@@ -111,7 +111,7 @@ class CheckXP(commands.Cog):
         
         x = round(xp/req_xp*100, 2)
         embed.title = "Xp requirement reached!" if xp >= req_xp else "Xp requirement not reached!"
-        embed.description = f"{name} has {xp}\n The requirement is {req_xp}.\n{x}% Reaced!"
+        embed.description = f"{name} has {xp}\n The requirement is {req_xp}.\n{x}% Reached!"
 
         await ctx.send(embed=embed)
 
