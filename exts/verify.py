@@ -28,7 +28,7 @@ class Verify(commands.Cog):
             guild_id = await self.get_guild_id(player)
         except:
             guild_id = ""
-        roles_to_rm = []
+        roles_to_rm = [member.guild.get_role(self.bot.config["verified"])]
         roles_to_add = []
         for guild in self.bot.config["linking"]["guilds"]:
             if guild["id"] == guild_id:

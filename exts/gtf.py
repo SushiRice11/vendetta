@@ -261,6 +261,7 @@ c = {
 def random_url_name():
 
     e = random.choice(list(c.keys()))
+    print(e, c[e])
     return f"https://cdn.jsdelivr.net/gh/hampusborgos/country-flags@main/png250px/{e.lower()}.png", c[e]
 
 
