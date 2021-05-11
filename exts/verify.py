@@ -28,8 +28,8 @@ class Verify(commands.Cog):
             guild_id = await self.get_guild_id(player)
         except:
             guild_id = ""
-        roles_to_rm = [member.guild.get_role(self.bot.config["verified"])]
-        roles_to_add = []
+        roles_to_rm = []
+        roles_to_add = [member.guild.get_role(self.bot.config["verified"])]
         for guild in self.bot.config["linking"]["guilds"]:
             if guild["id"] == guild_id:
                 roles_to_add.append(member.guild.get_role(guild["role"]))
@@ -58,6 +58,14 @@ class Verify(commands.Cog):
                 continue
             await self.ensure_has_guild_role(member, player)
             await asyncio.sleep(2)
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def force_link(self, ctx, member:discord.Member, ign):
+        uuid = await name_to_uuid(self.bot, name)
+        await self.bot.db.links.insert_one({"uuid": uuid, "user": member.id})
+        await ctx.send("done.")
+        await self.ensure_has_guild_role(member, uuid)
 
     @commands.Cog.listener()
     async def on_message(self, message):
