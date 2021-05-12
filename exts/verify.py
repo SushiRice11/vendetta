@@ -62,7 +62,7 @@ class Verify(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def force_link(self, ctx, member:discord.Member, ign):
-        uuid = await name_to_uuid(self.bot, name)
+        uuid = await name_to_uuid(self.bot, ign)
         await self.bot.db.links.insert_one({"uuid": uuid, "user": member.id})
         await ctx.send("done.")
         await self.ensure_has_guild_role(member, uuid)
