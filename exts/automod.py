@@ -140,8 +140,8 @@ class AutoMod(commands.Cog):
         if message.channel.id in self.bot.config["ignore_spam"]:
             return
         if self.is_emoji_spam(message):
-            await message.delete()
-            return await self.add_infraction(message.author, message.channel, reason="Emoji Spam.")
+            return await message.delete()
+            #return await self.add_infraction(message.author, message.channel, reason="Emoji Spam.")
         if self.is_caps(message):
             if not message.author.id in self.last_caps:
                 self.last_caps[message.author.id] = 0
