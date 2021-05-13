@@ -258,7 +258,7 @@ class Casino(commands.Cog):
 
 
     @commands.command(aliases=["mr", "monthly"])
-    @commands.cooldown(1, 60*60*24*7*30, commands.BucketType.user)
+    @commands.cooldown(1, 60*60*24*30, commands.BucketType.user)
     @commands.cooldown(10, 45, commands.BucketType.guild)
     async def monthlyreward(self, ctx):
         await self.bot.db.points.find_one_and_update({"user": ctx.author.id}, {"$inc": {"points":  200}}) 
