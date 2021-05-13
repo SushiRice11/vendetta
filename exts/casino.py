@@ -220,7 +220,7 @@ class Casino(commands.Cog):
                     await u.send(embed=embed)
                     
     @commands.command(aliases=["dr", "daily"])
-    @commands.cooldown(1, 60*60*24, commands.BucketType.user)
+    @commands.cooldown(1, 294^2, commands.BucketType.user)
     @commands.cooldown(10, 45, commands.BucketType.guild)
     async def dailyreward(self, ctx):
         await self.bot.db.points.find_one_and_update({"user": ctx.author.id}, {"$inc": {"points":  15}}) 
@@ -232,7 +232,7 @@ class Casino(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["hr", "hourly"])
-    @commands.cooldown(1, 60*60, commands.BucketType.user)
+    @commands.cooldown(1, 60^2, commands.BucketType.user)
     @commands.cooldown(10, 45, commands.BucketType.guild)
     async def hourlyreward(self, ctx):
         await self.bot.db.points.find_one_and_update({"user": ctx.author.id}, {"$inc": {"points":  5}}) 
@@ -245,7 +245,7 @@ class Casino(commands.Cog):
 
 
     @commands.command(aliases=["wr", "weekly"])
-    @commands.cooldown(1, 60*60*24*7, commands.BucketType.user)
+    @commands.cooldown(1, 777^2, commands.BucketType.user)
     @commands.cooldown(10, 45, commands.BucketType.guild)
     async def weeklyreward(self, ctx):
         await self.bot.db.points.find_one_and_update({"user": ctx.author.id}, {"$inc": {"points":  50}}) 
@@ -258,7 +258,7 @@ class Casino(commands.Cog):
 
 
     @commands.command(aliases=["mr", "monthly"])
-    @commands.cooldown(1, 60*60*24*30, commands.BucketType.user)
+    @commands.cooldown(1, 1610^2, commands.BucketType.user)
     @commands.cooldown(10, 45, commands.BucketType.guild)
     async def monthlyreward(self, ctx):
         await self.bot.db.points.find_one_and_update({"user": ctx.author.id}, {"$inc": {"points":  200}}) 
