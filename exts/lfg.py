@@ -443,7 +443,7 @@ class LookingForGame(commands.Cog):
         embed.description = f"{description} ```/p join {name}```"
         embed.color = discord.Color.blue()
         pchannel = self.bot.get_channel(self.bot.config["pchannel"])
-        await pchannel.send(embed=embed)
+        await pchannel.send(f"<@&{self.bot.config['prole']}>", embed=embed)
         await ctx.send("Done!")
 
 def setup(bot):
