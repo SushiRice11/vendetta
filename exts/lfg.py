@@ -421,11 +421,13 @@ class LookingForGame(commands.Cog):
         else:
             await ctx.send("**Only the party leader (or admins) can do this!**")
 
-    async def has_pl_role(self, ctx):
-        return any([role.id == self.bot.config["pleader"] for role in ctx.author.roles])
+    def has_pl_role(self):
+        async def predicate(ctx):
+            return any([role.id == self.bot.config["pleader"] for role in ctx.author.roles])
+        return commands.check(predicate)
 
     @commands.command()
-    @commands.check(has_pl_role)
+    @has_pl_role()
     async def start_party(self, ctx, *, description):
         
 
