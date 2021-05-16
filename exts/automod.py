@@ -140,8 +140,8 @@ class AutoMod(commands.Cog):
         if message.channel.id in self.bot.config["ignore_spam"]:
             return
         if self.is_emoji_spam(message):
-            await message.delete()
-            return await self.add_infraction(message.author, message.channel, reason="Emoji Spam.")
+            return await message.delete()
+            #return await self.add_infraction(message.author, message.channel, reason="Emoji Spam.")
         if self.is_caps(message):
             if not message.author.id in self.last_caps:
                 self.last_caps[message.author.id] = 0
@@ -204,14 +204,14 @@ class AutoMod(commands.Cog):
             "unmute_at": datetime.utcnow() + timedelta(minutes=mins)
         })
         embed = discord.Embed()
-        embed.title = f"{member} has been muted for {mins} Minuites!"
+        embed.title = f"{member} has been muted for {mins} Minutes!"
         embed.description = f"Reason: `{reason}`\nModerator: {moderator}\nExpires: `{datetime.utcnow() + timedelta(minutes=mins)}`"
         embed.color = discord.Color.red()
         await channel.send(embed=embed)
         punishments = self.bot.get_channel(self.bot.config["punishments"])
         await punishments.send(embed=embed)
         try:
-            embed.title = f"You have been muted for {mins} Minuites!"
+            embed.title = f"You have been muted for {mins} Minutes!"
             await member.send(embed=embed)
         except:
             pass
@@ -321,7 +321,7 @@ class AutoMod(commands.Cog):
     async def unmute(self, ctx, member: discord.Member):
         mute = await self.bot.db.mutes.find_one({"active": True, "user": member.id})
         if not mute:
-            return await ctx.send("This person is not mtued")
+            return await ctx.send("This person is not muted")
         role = member.guild.get_role(self.bot.config["muted_role"])
         try:
             await member.remove_roles(role)
