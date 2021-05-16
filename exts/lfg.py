@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import random
 import asyncio
+from helpers.hypixel import uuid_to_name
 
 def convert_invite(invite):
     if isinstance(invite, str):
@@ -369,7 +370,7 @@ class LookingForGame(commands.Cog):
         await asyncio.sleep(60*60)
         self.p_cooldowns.remove(payload.member.id)
 
-    @commands.command()
+    #@commands.command()
     async def accept(self, ctx, party_id: convert_invite, invite_id: convert_invite):
         party = await Party.from_id(self.bot, party_id)
         if not party:
@@ -377,7 +378,7 @@ class LookingForGame(commands.Cog):
         await party.accept_invite(ctx.author, invite_id)
         await ctx.send("Party joined!")
 
-    @commands.command()
+    #@commands.command()
     async def deny(self, ctx, party_id: convert_invite, invite_id: convert_invite):
         party = await Party.from_id(self.bot,party_id)
         if not party:
@@ -385,7 +386,7 @@ class LookingForGame(commands.Cog):
         await party.deny_invite(ctx.author, invite_id)
         await ctx.send("Party Denied!")
 
-    @commands.command()
+    #@commands.command()
     async def invite(self, ctx, member: discord.Member):
         party = await Party.from_channel(self.bot, ctx.channel)
         if not party:
@@ -419,6 +420,31 @@ class LookingForGame(commands.Cog):
             await party.leave(member)
         else:
             await ctx.send("**Only the party leader (or admins) can do this!**")
+
+    async def has_pl_role(self, ctx):
+        return any([role.id == self.bot.config["pleader"] for role in ctx.author.roles])
+
+    @commands.command()
+    @commands.check(has_pl_role)
+    async def start_party(self, ctx, *, description):
+        
+
+        doc = await self.bot.db["links"].find_one({
+            "user": ctx.author.id
+        })
+        embed = discord.Embed()
+        if not doc:
+            embed.color = discord.Color.red()
+            embed.title = "Not Linked!"
+            embed.description = "We couldnt find a linked account, please use the verify channel!"
+            return await ctx.send(embed=embed)
+        name = await uuid_to_name(self.bot, doc["uuid"])
+        embed.title = f"{name} is hosting a public party"
+        embed.description = f"{description} ```/p join {name}```"
+        embed.color = discord.Color.blue()
+        pchannel = self.bot.get_channel(self.bot.config["pchannel"])
+        await pchannel.send(embed=embed)
+        await ctx.send("Done!")
 
 def setup(bot):
     bot.add_cog(LookingForGame(bot))

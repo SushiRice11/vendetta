@@ -132,16 +132,16 @@ class Leveling:
         verybig = ImageFont.truetype("./assets/font.ttf", int(5*o))
 
         draw.text((int(im.size[1]/2 - o * 25), o*35),
-                  f"{member} | #{rank}", font=big, fill=fontcolour)
+                    f"{member} | #{rank}", font=big, fill=fontcolour)
         draw.text((int(3*o), o*40),
-                  f"Level {level}", font=medium, fill=fontcolour)
+                    f"Level {level}", font=medium, fill=fontcolour)
         draw.text((int(3*o), o*44),
-                  f"{to_str(xp)} XP", font=medium, fill=fontcolour)
+                    f"{to_str(xp)} XP", font=medium, fill=fontcolour)
         draw.text((int(3*o), o*48), f"{to_str(messages)} Messages",
-                  font=medium, fill=fontcolour)
+                    font=medium, fill=fontcolour)
 
         draw.text((o*45, o*5), f"Progress to level {level+1}",
-                  font=verybig, fill=fontcolour)
+                    font=verybig, fill=fontcolour)
 
         chart = create_pie_chart(('', ''), self.progress(xp), colours=(
             (0, 190/255, 230/255), (.3, .3, .3)))
