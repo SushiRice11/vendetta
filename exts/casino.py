@@ -49,7 +49,7 @@ class Casino(commands.Cog):
 
     @commands.command(aliases=["casino", "coinflip", "cf"])
     @commands.cooldown(1, 30, commands.BucketType.user)
-    @commands.cooldown(30, 45, commands.BucketType.guild)
+    @commands.cooldown(3, 15, commands.BucketType.guild)
     @is_linked()
     async def gamble(self, ctx, amount):
         r = await self.bot.db.points.find_one({"user": ctx.author.id})
@@ -92,7 +92,7 @@ class Casino(commands.Cog):
 
     @commands.command(aliases=["roll", "dice", "die"])
     @commands.cooldown(1, 45, commands.BucketType.user)
-    @commands.cooldown(30, 45, commands.BucketType.guild)
+    @commands.cooldown(3, 15, commands.BucketType.guild)
     @is_linked()
     async def dice_roll(self, ctx, prediction: int, amount="All"):
         r = await self.bot.db.points.find_one({"user": ctx.author.id})
@@ -150,7 +150,7 @@ class Casino(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 10, commands.BucketType.user)
-    @commands.cooldown(30, 10, commands.BucketType.guild)
+    @commands.cooldown(3, 15, commands.BucketType.guild)
     @is_linked()
     async def rps(self, ctx, amount="All", challenged: discord.Member = None):
         r = await self.bot.db.points.find_one({"user": ctx.author.id})
@@ -231,7 +231,7 @@ class Casino(commands.Cog):
                     
     @commands.command(aliases=["dr", "daily"])
     @commands.cooldown(1, 60*60*24, commands.BucketType.user)
-    @commands.cooldown(10, 45, commands.BucketType.guild)
+    @commands.cooldown(3, 15, commands.BucketType.guild)
     @is_linked()
     async def dailyreward(self, ctx):
         await self.bot.db.points.find_one_and_update({"user": ctx.author.id}, {"$inc": {"points":  15}}) 
@@ -244,7 +244,7 @@ class Casino(commands.Cog):
 
     @commands.command(aliases=["hr", "hourly"])
     @commands.cooldown(1, 60*60, commands.BucketType.user)
-    @commands.cooldown(10, 45, commands.BucketType.guild)
+    @commands.cooldown(3, 15, commands.BucketType.guild)
     @is_linked()
     async def hourlyreward(self, ctx):
         await self.bot.db.points.find_one_and_update({"user": ctx.author.id}, {"$inc": {"points":  5}}) 
@@ -258,7 +258,7 @@ class Casino(commands.Cog):
 
     @commands.command(aliases=["wr", "weekly"])
     @commands.cooldown(1, 60*60*24*7, commands.BucketType.user)
-    @commands.cooldown(10, 45, commands.BucketType.guild)
+    @commands.cooldown(3, 15, commands.BucketType.guild)
     @is_linked()
     async def weeklyreward(self, ctx):
         await self.bot.db.points.find_one_and_update({"user": ctx.author.id}, {"$inc": {"points":  50}}) 
@@ -272,7 +272,7 @@ class Casino(commands.Cog):
 
     @commands.command(aliases=["mr", "monthly"])
     @commands.cooldown(1, 60*60*24*30, commands.BucketType.user)
-    @commands.cooldown(10, 45, commands.BucketType.guild)
+    @commands.cooldown(3, 15, commands.BucketType.guild)
     @is_linked()
     async def monthlyreward(self, ctx):
         await self.bot.db.points.find_one_and_update({"user": ctx.author.id}, {"$inc": {"points":  200}}) 
