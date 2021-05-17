@@ -13,9 +13,3 @@ async def uuid_to_name(bot, uuid):
     async with bot.session.get(url, timeout=ClientTimeout(5)) as resp:
         data = await resp.json()
         return data[-1]["name"]
-
-
-def is_linked():
-    async def predicate(ctx):
-        return bool(await ctx.bot.db.links.find_one({"user": ctx.author}))
-    return commands.check(predicate)

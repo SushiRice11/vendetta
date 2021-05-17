@@ -2,7 +2,12 @@ import discord
 from discord.ext import commands
 import math
 import random
-from helpers.hypixel import is_linked
+
+
+def is_linked():
+    async def predicate(ctx):
+        return bool(await ctx.bot.db.links.find_one({"user": ctx.author}))
+    return commands.check(predicate)
 
 def can_be_int(num):
     try:
