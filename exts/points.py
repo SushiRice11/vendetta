@@ -6,7 +6,7 @@ import random
 
 def is_linked():
     async def predicate(ctx):
-        return bool(await ctx.bot.db.links.find_one({"user": ctx.author}))
+        return bool(await ctx.bot.db.links.find_one({"user": ctx.author.id}))
     return commands.check(predicate)
 
 def can_be_int(num):
