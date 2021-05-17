@@ -114,6 +114,35 @@ class Verify(commands.Cog):
         await self.bot.db["links"].find_one_and_delete({"user": member.id})
         await ctx.send("**Unlinked!**")
     
+    @commands.command(aliases=["verify"])
+    async def link(self, ctx, ign):
+        message = ctx.message
+        try:
+            uuid = await name_to_uuid(self.bot, ign)
+            memberdc = await self.get_player_discord(uuid)
+        except:
+            return await message.channel.send("**Player Not Found**", delete_after=5)
+        if memberdc == self.bot.config["linking"]["look_for"].format(message.author):
+
+            doc = await self.bot.db["links"].find_one({
+                "user": message.author.id
+            })
+            if doc:
+                return await message.channel.send(f"**Account already linked**", delete_after=5)
+            doc = await self.bot.db["links"].find_one({
+                "uuid": uuid
+            })
+            if doc:
+                return await message.channel.send(f"**Minecraft already linked**", delete_after=5)
+
+            await message.channel.send(f"**Linked with {message.content}**", delete_after=5)
+            await self.bot.db["links"].insert_one({
+                "user": message.author.id,
+                "uuid": uuid
+            })
+            await self.ensure_has_guild_role(message.author, uuid)
+        else:
+            await message.channel.send("**Player Not Linked In Game**", delete_after=5)
     @commands.command()
     async def check_link(self, ctx, member:discord.Member=None):
         if not member:

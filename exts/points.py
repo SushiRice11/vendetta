@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import math
 import random
+from helpers.hypixel import is_linked
 
 def can_be_int(num):
     try:
@@ -47,6 +48,7 @@ class Points(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.cooldown(30, 30, commands.BucketType.guild)
+    @is_linked()
     async def points(self, ctx, user: discord.User = None):
         if not user:
             user = ctx.author
@@ -62,6 +64,7 @@ class Points(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.cooldown(30, 30, commands.BucketType.guild)
+    @is_linked()
     async def give(self, ctx, member: discord.Member, points: int):
         r = await self.bot.db.points.find_one({"user": ctx.author.id})
         if not r:
@@ -88,6 +91,7 @@ class Points(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.cooldown(30, 30, commands.BucketType.guild)
+    @is_linked()
     async def buy(self, ctx, points: int):
         if points not in list(self.bot.config["buy"].keys()):
             embed = discord.Embed(colour=discord.Colour.red(
@@ -126,6 +130,7 @@ class Points(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
+    @is_linked()
     async def packages(self, ctx):
 
         p = "\n".join(
@@ -138,6 +143,7 @@ class Points(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["lb"])
+    @is_linked()
     async def leaderboard(self, ctx, _type="rank", page=1):
         page -= 1
         if page < 0:

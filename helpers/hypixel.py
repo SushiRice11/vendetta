@@ -1,4 +1,5 @@
 from aiohttp import ClientTimeout
+from discord.ext import commands
 
 async def name_to_uuid(bot, name):
     url = bot.config["linking"]["mcn_endpoint"].format(name)
@@ -6,8 +7,15 @@ async def name_to_uuid(bot, name):
         data = await resp.json()
         return data["id"]
 
+
 async def uuid_to_name(bot, uuid):
     url = bot.config["linking"]["mcu_endpoint"].format(uuid)
     async with bot.session.get(url, timeout=ClientTimeout(5)) as resp:
         data = await resp.json()
         return data[-1]["name"]
+
+
+def is_linked():
+    async def predicate(ctx):
+        return bool(await ctx.bot.db.links.find_one({"user": ctx.author}))
+    return commands.check(predicate)
